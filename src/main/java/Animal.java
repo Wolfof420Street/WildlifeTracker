@@ -54,4 +54,12 @@ public class Animal {
     public int getId() {
         return id;
     }
+    public List <Sighting> getSightings() {
+        try(Connection con = DB.sql2o.open()){
+            String sql = "SELECT * FROM sightings where animalid=:id";
+            return  con.createQuery(sql)
+                    .addParameter("id", this.id)
+                    .executeAndFetch(Sighting.class);
+        }
+    }
     }

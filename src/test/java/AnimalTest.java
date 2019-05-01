@@ -2,6 +2,7 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import org.junit.rules.ExternalResource;
 import org.sql2o.*;
+import java.util.Arrays;
 
 public class AnimalTest {
    @Rule
@@ -58,4 +59,15 @@ public void save_assignsIdToObject() {
         secondAnimal.save();
         assertEquals(Animal.find(secondAnimal.getId()), secondAnimal);
     }
-}
+    @Test
+    public void getSightings_retrievesAllSightingsFromDatabase_sightingList() {
+        Animal testAnimal = new Animal("Henry");
+        testAnimal.save();
+        Sighting firstSighting = new Sighting("Bubbles", testAnimal.getId(),"Bill");
+        firstSighting.save();
+        Sighting secondSighting = new Sighting("Spud", testAnimal.getId(), "Mummy");
+        secondSighting.save();
+        Sighting [] sightings = new Sighting [] { firstSighting, secondSighting };
+        assertTrue(testAnimal.getSightings().containsAll(Arrays.asList(sightings)));
+    }
+   }
