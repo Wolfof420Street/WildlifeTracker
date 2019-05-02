@@ -59,5 +59,23 @@ public class Sighting {
 
         }
     }
+    public List<Ranger> getRangers() {
+        try(Connection con = DB.sql2o.open()){
+            String joinQuery = "SELECT ranger_id FROM rangers_sightings WHERE sighting_id = :sighting_id";
+            List<Integer> rangerIds = con.createQuery(joinQuery)
+                    .addParameter("sighting_id", this.getId())
+                    .executeAndFetch(Integer.class);
 
+            List<Ranger> rangers = new ArrayList<Ranger>();
+
+            for (Integer rangerId : rangerIds) {
+                String rangerQuery = "SELECT * FROM rangers WHERE id = :rangerId";
+                Ranger ranger = con.createQuery(rangerQuery)
+                        .addParameter("rangerId", rangerId)
+                        .executeAndFetchFirst(Ranger.class);
+                rangers.add(ranger);
+            }
+            return rangers;
+        }
+    }
 }

@@ -1,6 +1,7 @@
 import org.junit.*;
 import static org.junit.Assert.*;
 import org.sql2o.*;
+import java.util.List;
 
 public class SightingTest {
     @Rule
@@ -52,5 +53,15 @@ public class SightingTest {
         testSighting.save();
         Sighting savedSighting = Sighting.find(testSighting.getId());
         assertEquals (savedSighting.getAnimalId(), testAnimal.getId());
+    }
+    @Test
+    public void getRangers_returnsAllRangers_List() {
+        Ranger testRanger = new Ranger("Fire Enthusiasts", "Flame on!");
+        testRanger.save();
+        Sighting testSighting = new Sighting("Henry", 1,"Wolf");
+        testSighting.save();
+        testRanger.addSighting(testSighting);
+        List savedCommunities = testSighting.getRangers();
+        assertEquals(1, savedCommunities.size());
     }
 }
