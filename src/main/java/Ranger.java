@@ -2,7 +2,7 @@ import org.sql2o.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ranger {
+public class Ranger implements DatabaseManagement {
     private String name;
     private String contactInfo;
     private int id;
@@ -27,6 +27,7 @@ public class Ranger {
                     this.getDescription().equals(newRanger.getDescription());
         }
     }
+    @Override
     public void save() {
         try(Connection con = DB.sql2o.open()) {
             String sql = "INSERT INTO rangers (name, contactinfo) VALUES (:name, :contactInfo)";
@@ -46,6 +47,7 @@ public class Ranger {
     public int getId() {
         return id;
     }
+    @Override
     public void delete() {
         try(Connection con = DB.sql2o.open()) {
             String sql = "DELETE FROM rangers WHERE id = :id;";
