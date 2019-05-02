@@ -1,0 +1,16 @@
+<div class="container">
+<div class="row">
+<div class="col-md-6">
+<h1>List of Rangers</h1>
+<div class="card card-image" style="background-image: url(https://images.wallpaperscraft.com/image/wolves_predators_forest_photoshop_118299_300x168.jpg);">
+<div class="text-white text-center d-flex align-items-center rgba-black-strong py-5 px-4">
+<div>
+<ul>
+
+  #foreach ($ranger in $rangers)
+    <li><a href="/rangers">$ranger.getName()</a></li>
+  #end
+</ul>
+
+
+<a href="/rangers/new">Add New ranger</a>

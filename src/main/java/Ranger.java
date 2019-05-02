@@ -69,6 +69,16 @@ public class Ranger implements DatabaseManagement {
                     .executeUpdate();
         }
     }
+
+    public static Ranger find(int id) {
+        try(Connection con = DB.sql2o.open()) {
+            String sql = "SELECT * FROM rangers where id=:id";
+            Ranger ranger = con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(Ranger.class);
+            return ranger;
+        }
+    }
     public List<Sighting> getSightings() {
         try(Connection con = DB.sql2o.open()){
             String joinQuery = "SELECT sighting_id FROM rangers_sightings WHERE ranger_id = :ranger_id";

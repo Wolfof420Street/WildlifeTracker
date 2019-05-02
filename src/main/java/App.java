@@ -54,6 +54,21 @@ public class App {
             model.put("template", "templates/ranger-form.vtl");
             return new ModelAndView(model, layout);
         }, new VelocityTemplateEngine());
+        //getting new Animals
+        get("/animals", (request, response) -> {
+            Map<String, Object> model = new HashMap<String, Object>();
+            model.put("animals", Animal.all());
+            model.put("template", "templates/animal-success.vtl");
+            return new ModelAndView(model, layout);
+        }, new VelocityTemplateEngine());
+
+        //getting new Sightings
+        get("/sightings", (request, response) -> {
+            Map<String, Object> model = new HashMap<String, Object>();
+            model.put("sightings", Sighting.all());
+            model.put("template", "templates/sighting-success.vtl");
+            return new ModelAndView(model, layout);
+        }, new VelocityTemplateEngine());
 
         //getting new Rangers
         get("/rangers", (request, response) -> {
@@ -74,6 +89,29 @@ public class App {
             model.put("template", "templates/endangered-animals-form.vtl");
             return new ModelAndView(model, layout);
         }, new VelocityTemplateEngine());
+        get("/animals/:id", (request, response) -> {
+           HashMap<String, Object> model = new HashMap<String,Object>();
+           Animal animal = Animal.find(Integer.parseInt(request.params(":id")));
+           model.put("animal", animal);
+           model.put("template", "templates/animal.vtl");
+           return new ModelAndView(model, layout);
+        }, new VelocityTemplateEngine());
+        get("/rangers/:id", (request, response) -> {
+            HashMap<String, Object> model = new HashMap<String,Object>();
+            Ranger ranger = Ranger.find(Integer.parseInt(request.params(":id")));
+            model.put("ranger", ranger);
+            model.put("template", "templates/ranger.vtl");
+            return new ModelAndView(model, layout);
+        }, new VelocityTemplateEngine());
+        get("/rangers/:id/sightings/:id", (request, response) -> {
+            HashMap<String, Object> model = new HashMap<String,Object>();
+            Ranger ranger = Ranger.find(Integer.parseInt(request.params(":id")));
+            Sighting sighting = Sighting.find(Integer.parseInt(request.params(":id")));
+            model.put("ranger", ranger);
+            model.put("template", "templates/ranger.vtl");
+            return new ModelAndView(model, layout);
+        }, new VelocityTemplateEngine());
+
 
         //checking if animal is normal or endangered
         post("/animal/new", (request, response) -> {
@@ -112,7 +150,25 @@ public class App {
             String contactInfo = request.queryParams("contactInfo");
             Ranger newRanger = new Ranger(name, contactInfo);
             newRanger.save();
-            model.put("template", "templates/stylist-success.vtl");
+            model.put("template", "templates/rangers.vtl");
+            return new ModelAndView(model, layout);
+        }, new VelocityTemplateEngine());
+        post("/animals", (request, response) -> {
+            Map<String, Object> model = new HashMap<String, Object>();
+            String name = request.queryParams("name");
+            Animal newAnimal = new Animal(name);
+            newAnimal.save();
+            model.put("template", "templates/animals.vtl");
+            return new ModelAndView(model, layout);
+        }, new VelocityTemplateEngine());
+        post("/sightings", (request, response) -> {
+            Map<String, Object> model = new HashMap<String, Object>();
+            int animalId = Integer.parseInt(request.queryParams("animalId"));
+            String location = request.queryParams("location");
+            String rangerName = request.queryParams("rangerName");
+            Sighting newSightings = new Sighting(location, animalId, rangerName);
+            newSightings.save();
+            model.put("template", "templates/sightings.vtl");
             return new ModelAndView(model, layout);
         }, new VelocityTemplateEngine());
 
