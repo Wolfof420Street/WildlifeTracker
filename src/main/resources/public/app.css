@@ -1,0 +1,31 @@
+body {
+background-size: cover;
+position: relative;
+background-image:url("https://cdn-images-1.medium.com/max/1600/1*4B5N02IOvhIe3JKn_UK7BA.jpeg")
+}
+h1 {
+font-color: blue;
+text-align: center;
+}
+p {
+font-color: white;
+}
+a:link {
+  text-decoration: none;
+  color: red;
+}
+
+a:visited {
+  text-decoration: none;
+  color: green;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: hotpink;
+}
+
+a:active {
+  text-decoration: underline;
+  color: blue;
+}
